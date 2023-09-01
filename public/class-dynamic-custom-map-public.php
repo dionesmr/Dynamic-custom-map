@@ -106,36 +106,175 @@ class Dynamic_Custom_Map_Public {
     public function svgmap_shortcode($atts) {
         ob_start();
         ?>
-        <div id="svgMap"></div>
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                new svgMap({
-                    targetElementID: 'svgMap',
+        <div class="demo-container">
+            <h2>Countries using Euro as currency (custom tooltips)</h2>
+
+            <div id="svgMapEuroCurrency"></div>
+            <script>
+            var svgMapEuroCurrency = new svgMap({
+                targetElementID: 'svgMapEuroCurrency',
+                data: {
                     data: {
-                        data: {
-                            gdp: {
-                                name: 'GDP per capita',
-                                format: '{0} USD',
-                                thousandSeparator: ',',
-                                thresholdMax: 50000,
-                                thresholdMin: 1000
-                            },
-                            change: {
-                                name: 'Change to year before',
-                                format: '{0} %'
-                            }
-                        },
-                        applyData: 'gdp',
-                        values: {
-                            AF: { gdp: 587, change: 4.73 },
-                            AL: { gdp: 4583, change: 11.09 },
-                            DZ: { gdp: 4293, change: 10.01 }
-                            // ... Add more country data here
-                        }
+                        euro: {}
+                    },
+                    applyData: 'euro',
+                    values: {
+                        AT: { euro: 1, eurozone: 1 }, // Austria
+                        BE: { euro: 1, eurozone: 1 }, // Belgium
+                        CY: { euro: 1, eurozone: 1 }, // Cyprus
+                        EE: { euro: 1, eurozone: 1 }, // Estonia
+                        FI: { euro: 1, eurozone: 1 }, // Finland
+                        FR: { euro: 1, eurozone: 1 }, // France
+                        DE: { euro: 1, eurozone: 1 }, // Germany
+                        GR: { euro: 1, eurozone: 1 }, // Greece
+                        IE: { euro: 1, eurozone: 1 }, // Ireland
+                        IT: { euro: 1, eurozone: 1 }, // Italy
+                        LV: { euro: 1, eurozone: 1 }, // Latvia
+                        LT: { euro: 1, eurozone: 1 }, // Lithuania
+                        LU: { euro: 1, eurozone: 1 }, // Luxembourg
+                        MT: { euro: 1, eurozone: 1 }, // Malta
+                        NL: { euro: 1, eurozone: 1 }, // Netherlands
+                        PT: { euro: 1, eurozone: 1 }, // Portugal
+                        ES: { euro: 1, eurozone: 1 }, // Spain
+                        SI: { euro: 1, eurozone: 1 }, // Slovenia
+                        SK: { euro: 1, eurozone: 1 }, // Slovakia
+
+                        // Countries using euro but not in eurozone
+                        XK: { euro: 1, eurozone: 0, color: '#528FCC' }, // Kosovo
+                        ME: { euro: 1, eurozone: 0, color: '#528FCC' }, // Montenegro
+                        AD: { euro: 1, eurozone: 0, color: '#528FCC' }, // Andorra
+                        MC: { euro: 1, eurozone: 0, color: '#528FCC' }, // Monaco
+                        SM: { euro: 1, eurozone: 0, color: '#528FCC' }, // San Marino
+                        VA: { euro: 1, eurozone: 0, color: '#528FCC' }, // Vatican City
+
+                        // Countries in eurozone but not using euro
+                        BG: { euro: 0, eurozone: 1, color: '#a6d2ff' }, // Bulgaria
+                        CZ: { euro: 0, eurozone: 1, color: '#a6d2ff' }, // Czech Republic
+                        DK: { euro: 0, eurozone: 1, color: '#a6d2ff' }, // Denmark
+                        HR: { euro: 0, eurozone: 1, color: '#a6d2ff' }, // Croatia
+                        HU: { euro: 0, eurozone: 1, color: '#a6d2ff' }, // Hungary
+                        PL: { euro: 0, eurozone: 1, color: '#a6d2ff' }, // Poland
+                        RO: { euro: 0, eurozone: 1, color: '#a6d2ff' }, // Romania
+                        SE: { euro: 0, eurozone: 1, color: '#a6d2ff' } // Sweden
                     }
-                });
+                },
+                colorMin: '#E2E2E2',
+                colorMax: '#297ACC',
+                colorNoData: '#E2E2E2',
+                thresholdMax: 1,
+                thresholdMin: 0,
+                initialZoom: 3,
+                initialPan: {
+                    x: 420,
+                    y: 50
+                },
+                mouseWheelZoomEnabled: true,
+                mouseWheelZoomWithKey: true,
+                onGetTooltip: function (tooltipDiv, countryID, countryValues) {
+                // Geting the list of countries
+                var countries = svgMapEuroCurrency.countries;
+
+                // Create tooltip content element
+                var tooltipContentElement = document.createElement('div');
+                tooltipContentElement.style.padding = '16px 24px';
+
+                // Fill content
+                var innerHTML = '<div style="margin: 0 0 10px; text-align: center"></div>';
+
+                innerHTML +=
+                    '<div style="min-width: 180px; font-weight: bold; margin: 0 0 15px; text-align: center">' +
+                    countries[countryID] +
+                        '<table>'+
+                            '<thead>'+
+                                '<tr>'+
+                                    '<th><br></th>'+
+                                    '<th>2015</th>'+
+                                    '<th>2016</th>'+
+                                    '<th>2017</th>'+
+                                    '<th>2018</th>'+
+                                    '<th>2019</th>'+
+                                    '<th>2020</th>'+
+                                    '<th>2021</th>'+
+                                '</tr>'+
+                            '</thead>'+
+                            '<tbody>'+
+                                '<tr>'+
+                                    '<td>Leaders Trained&nbsp;</td>'+
+                                    '<td>&nbsp;15</td>'+
+                                    '<td>&nbsp;17</td>'+
+                                    '<td>20&nbsp;</td>'+
+                                    '<td>&nbsp;24</td>'+
+                                    '<td>&nbsp;35</td>'+
+                                    '<td>200&nbsp;</td>'+
+                                    '<td>500&nbsp;</td>'+
+                                '</tr>'+
+                                '<tr>'+
+                                    '<td># of events&nbsp;</td>'+
+                                    '<td>&nbsp;1</td>'+
+                                    '<td>2&nbsp;</td>'+
+                                    '<td>&nbsp;1</td>'+
+                                    '<td>3&nbsp;</td>'+
+                                    '<td>&nbsp;5</td>'+
+                                    '<td>&nbsp;8</td>'+
+                                    '<td>&nbsp;15</td>'+
+                                '</tr>'+
+                                '<tr>'+
+                                    '<td>&nbsp;$ spent</td>'+
+                                    '<td>&nbsp;$300</td>'+
+                                    '<td>&nbsp;$400</td>'+
+                                    '<td>$500&nbsp;</td>'+
+                                    '<td>$800&nbsp;</td>'+
+                                    '<td>$900&nbsp;</td>'+
+                                    '<td>$1200&nbsp;</td>'+
+                                    '<td>$1500&nbsp;</td>'+
+                                '</tr>'+
+                            '</tbody>'+
+                        '</table>'+
+                    '</div>';
+
+                // if (countryValues && countryValues.eurozone == 1) {
+                //     innerHTML +=
+                //     '<div style="margin-bottom: 8px"><span style="color: #6d0; display: inline-block; margin-right: 4px; width: 20px; text-align: center">✔</span>Part of eurozone</div>';
+                // } else {
+                //     innerHTML +=
+                //     '<div style="margin-bottom: 8px; color: #aaa"><span style="color: #f03; display: inline-block; margin-right: 4px; width: 20px; text-align: center">✘</span>Not a part of eurozone</div>';
+                // }
+
+                // if (countryValues && countryValues.euro == 1) {
+                //     innerHTML +=
+                //     '<div style="margin-bottom: 8px"><span style="color: #6d0; display: inline-block; margin-right: 4px; width: 20px; text-align: center">✔</span>Uses Euro</div>';
+                // } else {
+                //     innerHTML +=
+                //     '<div style="margin-bottom: 8px; color: #aaa"><span style="color: #f03; display: inline-block; margin-right: 4px; width: 20px; text-align: center">✘</span>Does not use Euro</div>';
+                // }
+
+                // Return element with custom content
+                tooltipContentElement.innerHTML = innerHTML;
+                return tooltipContentElement;
+                }
             });
-        </script>
+            </script>
+            <style>
+                table {
+                    border:1px solid #b3adad;
+                    border-collapse:collapse;
+                    padding:5px;
+                }
+                table th {
+                    border:1px solid #b3adad;
+                    padding:5px;
+                    background: #f0f0f0;
+                    color: #313030;
+                }
+                table td {
+                    border:1px solid #b3adad;
+                    text-align:center;
+                    padding:5px;
+                    background: #ffffff;
+                    color: #313030;
+                }
+            </style>
+        </div>
         <?php
         return ob_get_clean();
     }
